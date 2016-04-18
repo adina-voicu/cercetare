@@ -4,10 +4,11 @@
 * NumPy
 * SciPy
 * SciLearn
-* Gemsim
+* Gensim
 * NLTK
 * Pattern
-* PyMongo 
+* PyMongo
+* Polyglot
 
 #### Database
 * MongoDB
