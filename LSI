@@ -1,0 +1,33 @@
+from gensim import corpora, models, similarities
+from gensim.models import hdpmodel, ldamodel
+from itertools import izip
+
+documents = ["A Rule-based Language for Deductive Object-Oriented   Databases."
+"Bill-of-Material Configuration Generation."
+"Title, General Chairman's Message, Program Chairman's Message, Reviewers, Table of Contents, Author Index."
+"The Generalized Grid File: Description and Performance Aspects."
+"Join Index, Materialized View, and Hybrid-Hash Join: A Performance Analysis."
+"Compilation of Logic Programs to Implement Very Large Knowledge Base Systems - A Case Study: Educe*."
+"Attribute Inheritance Implemented on Top of a Relational Database System."
+"Update Propagation in Distributed Memory Hierarchy."
+"Modeling Design Object Relationships in PEGASUS."
+"Experimental Evaluation of Concurrency Checkpointing and Rollback-Recovery Algorithms."
+"An Attribute-Oriented Approach for Learning Classification Rules from Relational Databases."
+"Generalization and a Framework for Query Modification."
+"Selectivity Estimation Using Homogeneity Measurement."
+
+# remove common words and tokenize
+# set() is an unordered collection with no duplicate elements.
+# .split() - split a sentence (input) and store each word in a list.
+stoplist = set('for a of the and to in'.split())
+texts = [[word for word in document.lower().split() if word not in stoplist] for document in documents]
+
+# remove words that appear only once
+all_tokens = sum(texts, [])
+tokens_once = set(word for word in set(all_tokens) if all_tokens.count(word) == 1) 
+texts = [[word for word in text if word not in tokens_once]
+         for text in texts]
+
+#doc2bow converts a collection of words to its bag-of-words representation: a list of (word_id, word_frequency)
+dictionary = corpora.Dictionary(texts)
+corpus = [dictionary.doc2bow(text) for text in texts]
