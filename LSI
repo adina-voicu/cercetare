@@ -19,15 +19,18 @@ documents = ["A Rule-based Language for Deductive Object-Oriented   Databases."
 # remove common words and tokenize
 # set() is an unordered collection with no duplicate elements.
 # .split() - split a sentence (input) and store each word in a list.
+
 stoplist = set('for a of the and to in'.split())
 texts = [[word for word in document.lower().split() if word not in stoplist] for document in documents]
 
 # remove words that appear only once
+
 all_tokens = sum(texts, [])
 tokens_once = set(word for word in set(all_tokens) if all_tokens.count(word) == 1) 
 texts = [[word for word in text if word not in tokens_once]
          for text in texts]
 
 #doc2bow converts a collection of words to its bag-of-words representation: a list of (word_id, word_frequency)
+
 dictionary = corpora.Dictionary(texts)
 corpus = [dictionary.doc2bow(text) for text in texts]
