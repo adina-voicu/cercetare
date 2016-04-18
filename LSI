@@ -34,3 +34,13 @@ texts = [[word for word in text if word not in tokens_once]
 
 dictionary = corpora.Dictionary(texts)
 corpus = [dictionary.doc2bow(text) for text in texts]
+
+# Print out the topics for LSA
+"""izip() returns an iterator(lists,strings,tuples,files) that combines the elements of several iterators into tuples.""" 
+lsi = models.LsiModel(corpus_tfidf, id2word=dictionary, num_topics=2)
+corpus_lsi = lsi[corpus]
+
+for l,t in izip(corpus_lsi,corpus):
+  print l,"#",t
+for topic in lsi.print_topics(2):
+  print topic
