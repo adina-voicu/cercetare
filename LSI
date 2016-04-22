@@ -14,7 +14,7 @@ documents = ["A Rule-based Language for Deductive Object-Oriented   Databases."
 "Experimental Evaluation of Concurrency Checkpointing and Rollback-Recovery Algorithms."
 "An Attribute-Oriented Approach for Learning Classification Rules from Relational Databases."
 "Generalization and a Framework for Query Modification."
-"Selectivity Estimation Using Homogeneity Measurement."
+"Selectivity Estimation Using Homogeneity Measurement."]
 
 # remove common words and tokenize
 # set() is an unordered collection with no duplicate elements.
