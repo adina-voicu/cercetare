@@ -15,7 +15,7 @@ titles = ["A Rule-based Language for Deductive Object-Oriented Databases."
           "Attribute Inheritance Implemented on Top of a Relational Database System."
           "Update Propagation in Distributed Memory Hierarchy."
           "Modeling Design Object Relationships in PEGASUS."
-          "Experimental Evaluation of Concurrency Checkpointing and Rollback-Recovery Algorithms.
+          "Experimental Evaluation of Concurrency Checkpointing and Rollback-Recovery Algorithms."
           "An Attribute-Oriented Approach for Learning Classification Rules from Relational Databases."
           "Generalization and a Framework for Query Modification."
           "Selectivity Estimation Using Homogeneity Measurement." ]
