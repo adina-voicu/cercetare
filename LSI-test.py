@@ -1,33 +1,41 @@
-# your code goes here
-
 from numpy import zeros
 from scipy.linalg import svd
-#following needed for TFIDF
-from math import log
-from numpy import asarray, sum
 
-titles = ["A Rule-based Language for Deductive Object-Oriented Databases."
-          "Bill-of-Material Configuration Generation."
-          "Title, General Chairman's Message, Program Chairman's Message, Reviewers, Table of Contents, Author Index."
-          "The Generalized Grid File: Description and Performance Aspects."
-          "Join Index, Materialized View, and Hybrid-Hash Join: A Performance Analysis."
-          "Compilation of Logic Programs to Implement Very Large Knowledge Base Systems - A Case Study: Educe*."
-          "Attribute Inheritance Implemented on Top of a Relational Database System."
-          "Update Propagation in Distributed Memory Hierarchy."
-          "Modeling Design Object Relationships in PEGASUS."
-          "Experimental Evaluation of Concurrency Checkpointing and Rollback-Recovery Algorithms."
-          "An Attribute-Oriented Approach for Learning Classification Rules from Relational Databases."
-          "Generalization and a Framework for Query Modification."
-          "Selectivity Estimation Using Homogeneity Measurement." ]
+titles = ["Generalization and a Framework for Query Modification."
+          "Selectivity Estimation Using Homogeneity Measurement." 
+          "Coupling hypertext to an object-oriented environment."
+          "Expert system support for the therapeutic management of cerebrovascular disease."
+          "Making deepness explicit."
+          "Monitoring diseases with empirical and model-generated histories."
+          "Towards computer-assisted maintenance of medical knowledge bases."
+          "Expertext for medical care and literature retrieval."
+          "Parallel Linear Programming in Fixed Dimension Almost Surely in Constant Time"
+          "Uniform Memory Hierarchies"
+          "Simple Constructions of Almost k-Wise Independent Random Variables"
+          "Learning Conjunctions of Horn Clauses (Extended Abstract)"
+          "Fault Tolerant Sorting Network"
+          "Are Wait-Free Algorithms Fast? (Extended Abstract)"
+          "Communication-Optimal Maintenance of Replicated Information"
+          "Sparse Partitions (Extended Abstract)"
+          "Network Synchronization with Polylogarithmic Overhead"
+          "A Dining Philosophers Algorithm with Polynomial Response Time"
+          "A Characterization of \sharp P Arithmetic Straight Line Programs"
+          "Non-Deterministic Exponential Time Has Two-Prover Interactive Protocols"
+]
 stopwords = ['a','and','edition','for','in','little','of','the','to']
 ignorechars = ''',:'!'''
 
+#Define LSA Class
+
 class LSA(object):
+#method for initialization, it stores the stopwords and ignorechars, and then initializes the word dictionary and the document count variables.
     def __init__(self, stopwords, ignorechars):
         self.stopwords = stopwords
         self.ignorechars = ignorechars
         self.wdict = {}
-        self.dcount = 0        
+        self.dcount = 0
+# parsing the documents. Splits the document into words, removes the ignored characters and turns everything into lowercase. If the word is a stop word, it is ignored. If it is not a stop word, we put it in the dictionary. 
+# The documents that each word appears in are kept in a list associated with that word in the dictionary.     
     def parse(self, doc):
         words = doc.split();
         for w in words:
@@ -38,8 +46,12 @@ class LSA(object):
                 self.wdict[w].append(self.dcount)
             else:
                 self.wdict[w] = [self.dcount]
-        self.dcount += 1  
-        #print(self.wdict)
+        self.dcount += 1  # increase the document count, for the next document to be parsed.
+        print(self.wdict)
+# building the matrix of word counts. Once all documents are parsed, the words from more than 1 document are extracted and sorted. 
+# Built the matrix with: 
+# number of rows = the number of words (keys)
+# number of columns = the document count. Finally, for each word (key) and document pair the corresponding matrix cell is increased.
     def build(self):
         self.keys = [k for k in self.wdict.keys() if len(self.wdict[k]) > 1]
         self.keys.sort()
@@ -47,8 +59,9 @@ class LSA(object):
         for i, k in enumerate(self.keys):
             for d in self.wdict[k]:
                 self.A[i,d] += 1
-    def calc(self):
-        self.U, self.S, self.Vt = svd(self.A)
+# WordsPerDoc holds the total number of index words in each document. 
+# DocsPerWord create an array with the number of documents in which word i appears. 
+# Step through each cell and apply the formula.
     def TFIDF(self):
         WordsPerDoc = sum(self.A, axis=0)        
         DocsPerWord = sum(asarray(self.A > 0, 'i'), axis=1)
@@ -56,22 +69,14 @@ class LSA(object):
         for i in range(rows):
             for j in range(cols):
                 self.A[i,j] = (self.A[i,j] / WordsPerDoc[j]) * log(float(cols) / DocsPerWord[i])
+# prints out the matrix that we have built so it can be checked
     def printA(self):
         print ('Here is the count matrix')
         print (self.A)
-        
-    def printSVD(self):
-        print ('Here are the singular values')
-        print (self.S)
-        print ('Here are the first 3 columns of the U matrix')
-        print (-1*self.U[:, 0:3])
-        print ('Here are the first 3 rows of the Vt matrix')
-        print (-1*self.Vt[0:3, :])
-        
+ 
+# Test the LSA Class        
 mylsa = LSA(stopwords, ignorechars)
 for t in titles:
-    mylsa.parse(t)
-mylsa.build()
-mylsa.printA()
-mylsa.calc()
-mylsa.printSVD()
+    mylsa.parse(t)   # call the parse method on each title
+mylsa.build()    # create the matrix of word by title counts.
+mylsa.printA()   # print the matrix
