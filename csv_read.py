@@ -15,14 +15,14 @@ def clean_sentence(s):
         for items in s:
             lst_cleaned.append(clean(items))
         return lst_cleaned
-         
+# lemmatize text         
 def lemma(txt):
     a=[]
     for i in txt:
         x = ' '.join([wnl.lemmatize(i,j[0].lower()) if j[0].lower() in ['a','n','v'] else wnl.lemmatize(i) for i,j in pos_tag(word_tokenize(i))])
         a.append(x)
     return a
-
+#remove stopwords
 def stop(txt):
     x=[]
     for w in txt.split():
@@ -45,5 +45,3 @@ with open('datec.csv') as csvfile:
                 row[field]=line[field]
         output.append(row)
     print output
-        
-
