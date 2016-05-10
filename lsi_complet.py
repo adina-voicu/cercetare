@@ -37,7 +37,7 @@ for doc in corpus_tfidf:
     print doc
 
 # Utilizarea modelului LSI
-lsi = models.LsiModel(corpus_tfidf, id2word=dictionary, num_topics=2)
+lsi = models.LsiModel(corpus_tfidf, id2word=dictionary, num_topics=5)
 
 for topic in lsi.print_topics():
     print topic
