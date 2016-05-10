@@ -12,20 +12,20 @@ documents = []
 for doc in docs:
     text = doc['abstract']
     documents.append(text)
-print(documents)
+#print(documents)
 
 # vectorizarea documentelor, lista de liste cu termeni:
 texts = [[word for word in document.lower().split()] for document in documents]
 #print texts
 #dictionar id 2 word
 dictionary = corpora.Dictionary(texts)
-for key in dictionary:
-    print key, dictionary[key]
+#for key in dictionary:
+#    print key, dictionary[key]
 
 # lista de liste cu termeni si frecventa (co-occurrence) 
 # in literatura bag-of-words integer counts
 corpus = [dictionary.doc2bow(text) for text in texts]
-print corpus
+#print corpus
 
 # initializarea modelului TF*IDF
 tfidf = models.TfidfModel(corpus)
@@ -33,8 +33,8 @@ tfidf = models.TfidfModel(corpus)
 # vectorizare TF*IDF - matrice
 corpus_tfidf = tfidf[corpus]
 
-for doc in corpus_tfidf:
-    print doc
+#for doc in corpus_tfidf:
+#    print doc
 
 # Utilizarea modelului LSI
 lsi = models.LsiModel(corpus_tfidf, id2word=dictionary, num_topics=5)
