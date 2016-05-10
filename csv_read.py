@@ -53,12 +53,8 @@ def stop(txt):
 def insert(docs):
     con = pymongo.MongoClient()
     coll = con.test.contacts
-    #docs = [{"_id" : 2, "foio" : "HELLO world"}, {"_id" : 2, "Blah ah" : "Bloh"}]
     for doc in docs:
         coll.save(doc)
-   
-#   for d in docs:
-#        db.test_collection.insert(d)
 
 with open('datec.csv') as csvfile:
     reader = csv.DictReader(csvfile)
