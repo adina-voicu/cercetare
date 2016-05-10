@@ -18,7 +18,7 @@ def clean_sentence(s):
         for items in s:
             lst_cleaned.append(clean(items))
         return lst_cleaned
-
+# lemmatize text 
 def pos(tag):
     if tag.startswith('JJ'):
         return 'a'
@@ -30,8 +30,6 @@ def pos(tag):
         return 'r'
     else:
         return ''
-
-# lemmatize text         
 def lemma(sentences):
     a=[]
     for sentence in sentences:
