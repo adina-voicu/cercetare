@@ -52,7 +52,7 @@ def stop(txt):
 #insert docs in mongodb
 def insert(docs):
     con = pymongo.MongoClient()
-    coll = con.test.docs
+    coll = con.test.contacts
     #docs = [{"_id" : 2, "foio" : "HELLO world"}, {"_id" : 2, "Blah ah" : "Bloh"}]
     for doc in docs:
         coll.save(doc)
@@ -68,8 +68,9 @@ with open('datec.csv') as csvfile:
         row={}
         for field in header:
             if field == 'abstract':
-                row['abstract'] = insert(stop(' '.join(lemma(clean_sentence(nltk.sent_tokenize(line['abstract']))))))
+                row['abstract'] = stop(' '.join(lemma(clean_sentence(nltk.sent_tokenize(line['abstract'])))))
             else:    
                 row[field]=line[field]
         output.append(row)
+    insert(output)
     print output
