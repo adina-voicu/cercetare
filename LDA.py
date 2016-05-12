@@ -1,13 +1,12 @@
-# de pe pagina 1 https://radimrehurek.com/gensim/tut1.html
-
+import numpy as np
 from gensim import corpora, models, similarities
+import lda
+import lda.datasets
 import pymongo
 from pymongo import MongoClient
-from random import randint
 
 con = pymongo.MongoClient()
 collection = con.test.docs
-#docs = [{"_id" : 2, "foo" : "HELLO"}, {"_id" : 2, "Blah" : "Bloh"}]
 docs = list(collection.find())
 #print docs
 documents = []
@@ -30,6 +29,7 @@ dictionary = corpora.Dictionary(texts)
 #    print key, dictionary[key]
 
 # lista de liste cu termeni si frecventa (co-occurrence) 
+# in literatura bag-of-words integer counts
 corpus = [dictionary.doc2bow(text) for text in texts]
 #print corpus
 
@@ -38,14 +38,13 @@ tfidf = models.TfidfModel(corpus)
 
 # vectorizare TF*IDF
 corpus_tfidf = tfidf[corpus]
-
 #for doc in corpus_tfidf:
 #    print doc
 
 # generate LDA model
-lda = gensim.models.ldamodel.LdaModel(corpus_tfidf, num_topics=5, id2word = dictionary, passes=20)
+lda = models.ldamodel.LdaModel(corpus_tfidf, num_topics=5, id2word = dictionary, passes=350)
 
-print(ldamodel.print_topics(num_topics=5, num_words=10))
+print (lda.print_topics(num_topics=5, num_words=10))
 
 
 # pentru a vedea probabilitatea cu care apartine un documnet la un topic
