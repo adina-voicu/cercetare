@@ -4,7 +4,7 @@ from pymongo import MongoClient
 from random import randint
 
 con = pymongo.MongoClient()
-collection = con.test.docs
+collection = con.test.documente
 docs = list(collection.find())
 #print docs
 documents = []
@@ -19,7 +19,6 @@ for doc in docs:
 
 # vectorizarea documentelor, o lista de liste cu termeni:
 texts = [[word for word in document.lower().split()] for document in documents]
-
 #print texts
 
 #dictionar id 2 word
@@ -37,13 +36,11 @@ tfidf = models.TfidfModel(corpus)
 
 # vectorizare TF*IDF
 corpus_tfidf = tfidf[corpus]
-
 #for doc in corpus_tfidf:
 #    print doc
 
 # Utilizarea modelului LSI
 lsi = models.LsiModel(corpus_tfidf, id2word=dictionary, num_topics=5, onepass=False, power_iters = 350)
-
 
 for topic in lsi.print_topics():
     print topic
@@ -54,19 +51,19 @@ top = []
 for l in corpus_lsi:
 #    print l
     if not l:
-        topic = randint(0,4)
+        topc = randint(0,4)
     else:
         maximum = l[0][1]
     for elem in l:
         if maximum< elem[1]:
             maximum = elem[1]
-            topic = elem[0]
-    top.append(topic)
-print top
-print themes
+            topc = elem[0]
+    top.append(topc)
+#print top
+#print themes
 thtop = zip(themes,top)
-print z
-
+#print thtop
+#Tabel de contingență
 clase = {
     'medical' : {0:0, 1:0, 2:0, 3:0, 4:0},
     'database' : {0:0, 1:0, 2:0, 3:0, 4:0},
