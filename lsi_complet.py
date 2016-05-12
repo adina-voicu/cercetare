@@ -1,5 +1,3 @@
-# de pe pagina 1 https://radimrehurek.com/gensim/tut1.html
-
 from gensim import corpora, models, similarities
 import pymongo
 from pymongo import MongoClient
@@ -7,7 +5,6 @@ from random import randint
 
 con = pymongo.MongoClient()
 collection = con.test.docs
-#docs = [{"_id" : 2, "foo" : "HELLO"}, {"_id" : 2, "Blah" : "Bloh"}]
 docs = list(collection.find())
 #print docs
 documents = []
@@ -19,10 +16,8 @@ themes = []
 for doc in docs:
     text = doc['theme']
     themes.append(text)
-#documents = ["Human machine interface for lab abc computer applications", "A survey of user opinion of computer system response time", "The EPS user interface management system", "System and human system engineering testing of EPS", "Relation of user perceived response time to error measurement", "The generation of random binary unordered trees", "The intersection graph of paths in trees", "Graph minors IV Widths of trees and well quasi ordering", "Graph minors A survey"]
 
 # vectorizarea documentelor, o lista de liste cu termeni:
-# aceast lista trebuie sa contina doar lemme. 
 texts = [[word for word in document.lower().split()] for document in documents]
 
 #print texts
@@ -47,11 +42,11 @@ corpus_tfidf = tfidf[corpus]
 #    print doc
 
 # Utilizarea modelului LSI
-lsi = models.LsiModel(corpus_tfidf, id2word=dictionary, num_topics=5)
+lsi = models.LsiModel(corpus_tfidf, id2word=dictionary, num_topics=5, onepass=False, power_iters = 350)
 
 
-#for topic in lsi.print_topics():
-#    print topic
+for topic in lsi.print_topics():
+    print topic
 
 # pentru a vedea probabilitatea cu care apartine un documnet la un topic
 corpus_lsi = lsi[corpus_tfidf]
